@@ -34,3 +34,27 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+folder structure is --
+src/
+ ├── app/
+ │    ├── (auth)/
+ │    │     ├── login/page.tsx
+ │    │     ├── signup/page.tsx
+ │    │     └── forget-password/page.tsx
+ │    ├── (public)/
+ │    │     └── page.tsx   // home
+ │    ├── (protected)/
+ │    │     ├── dashboard/page.tsx
+ │    │     ├── profile/page.tsx
+ │    ├── (admin)/
+ │    │     └── admin/page.tsx
+ │
+ ├── middleware.ts
+ ├── lib/
+ │    ├── supabase/
+ │    │     ├── client.ts
+ │    │     └── server.ts
+ │
+ ├── constants/
+ │    └── routes.ts

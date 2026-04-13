@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Pacifico, Dancing_Script } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,7 +19,12 @@ const dancingScript = Dancing_Script({
 export const metadata: Metadata = {
   title: "WishWink | Send Cute AI Wishes",
   description: "Create and share personalized, cute wish messages for your loved ones.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1", // Mobile-first lock
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
