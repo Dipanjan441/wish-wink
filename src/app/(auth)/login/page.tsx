@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { use, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, Lock, Loader2 } from 'lucide-react';
@@ -10,7 +10,6 @@ import Logo from '@/components/Logo';
 import TextInput from '@/components/input/TextInput';
 import { supabaseClientForClient } from '@/lib/supabase/client';
 import { ROUTES } from '@/constants/routes';
-import { AUTH_ERRORS } from '@/constants/auth';
 import { getErrorMessage } from '@/app/(auth)/utils';
 
 export default function LoginPage() {
