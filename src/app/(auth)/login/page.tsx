@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -25,6 +24,11 @@ export default function LoginPage() {
         e.preventDefault();
         setLoading(true);
         setError(null);
+
+        // Clear the old error message from the URL
+        const url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        window.history.replaceState({}, document.title, url.toString());
 
         const { error } = await supabaseClientForClient.auth.signInWithPassword({
             email,
