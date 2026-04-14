@@ -101,7 +101,7 @@ export default function LoginPage() {
                     <div className="mt-8 text-center pt-6 border-t border-slate-50">
                         <p className="text-slate-500 text-sm font-medium">
                             Don&apos;t have an account?{' '}
-                            <Link href="/signup" className="link-text">
+                            <Link href={ROUTES.SIGNUP} className="link-text">
                                 Create one
                             </Link>
                         </p>

@@ -119,7 +119,7 @@ export default function SignupPage() {
                     <div className="mt-8 text-center pt-6 border-t border-slate-50">
                         <p className="text-slate-500 text-sm font-medium">
                             Already a member?{' '}
-                            <Link href="/login" className="link-text">
+                            <Link href={ROUTES.LOGIN} className="link-text">
                                 Sign In
                             </Link>
                         </p>

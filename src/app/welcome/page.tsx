@@ -6,10 +6,11 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import { supabaseClientForClient } from "@/lib/supabase/client";
 import { ROUTES } from "@/constants/routes";
 import { AUTH_ERRORS } from "@/constants/auth";
+import { APP_NAME } from "@/config/appConfig";
 
 export default function WelcomePage() {
     const router = useRouter();
-    const [status, setStatus] = useState("verifying"); // verifying | success
+    const [status, setStatus] = useState<"verifying" | "success">("verifying"); // verifying | success
 
     useEffect(() => {
         const checkSession = async () => {
@@ -44,7 +45,7 @@ export default function WelcomePage() {
                             <CheckCircle2 className="w-10 h-10 text-green-600" />
                         </div>
                         <div className="space-y-2">
-                            <h1 className="text-3xl font-black text-slate-900">Welcome to JobBuddy!</h1>
+                            <h1 className="text-3xl font-black text-slate-900">Welcome to {APP_NAME}</h1>
                             <p className="text-slate-500">Your email has been verified. Redirecting you now...</p>
                         </div>
                     </>

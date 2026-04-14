@@ -8,3 +8,5 @@ export const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL || "";
 export const APP_URL = {
     WELCOME: `${APP_BASE_URL}/${ROUTES.WELCOME}`
 }
+
+export const APP_NAME = "Wishwink";
