@@ -1,109 +1,86 @@
+import Link from 'next/link';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { InfiniteCarousel } from '@/components/ui/InfiniteCarousel';
+import { FEATURES, PRICING_PLANS, SUBTITLE } from '@/constants/landingPageConstants';
 
-"use client";
-
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Gift, Sparkles, Send, User, Wand2, Loader2 } from 'lucide-react';
-import { THEMES } from '@/constants/theme';
-import { ThemeId } from '@/types/index';
-import { SUPABASE_API_KEY, SUPABASE_URL } from '@/config/appConfig';
-import { supabaseClientForClient } from '@/lib/supabase/client';
-
-export default function HomePage() {
-  console.log(SUPABASE_API_KEY, SUPABASE_URL)
-  const router = useRouter();
-  const [isCreating, setIsCreating] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [formData, setFormData] = useState({
-    sender_name: '',
-    recipient_name: '',
-    message: '',
-    theme_id: 'birthday' as ThemeId
-  });
-
-  const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsCreating(true);
-
-    // Using local storage mock if Supabase is not configured
-    const { data, error } = await supabaseClientForClient.from('wishes').insert([formData]).select();
-
-    if (!error && data) {
-      router.push(`/wish/${data[0].id}`);
-    } else {
-      // Fallback for demo if Supabase keys aren't real
-      const mockId = Math.random().toString(36).substring(7);
-      const stored = JSON.parse(localStorage.getItem('wishes') || '{}');
-      stored[mockId] = formData;
-      localStorage.setItem('wishes', JSON.stringify(stored));
-      router.push(`/wish/${mockId}`);
-    }
-  };
-
-  const handleMagicWrite = async () => {
-    if (!formData.recipient_name) return alert("Enter a name first! ✨");
-    setIsGenerating(true);
-    // const msg = await generateWishSuggestion(formData.recipient_name, formData.theme_id);
-    // setFormData({ ...formData, message: msg });
-    setIsGenerating(false);
-  };
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center p-6 pt-12">
-      <div className="w-full max-w-md text-center">
-        <div className="flex justify-center mb-4">
-          <div className="relative">
-            <Gift className="w-12 h-12 text-indigo-600" />
-            <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-400 animate-pulse" />
+    <div className="flex flex-col min-h-screen">
+      {/* --- HERO SECTION --- */}
+      <section className="relative sm:px-4 pt-20 pb-16 flex flex-col items-center text-center overflow-hidden">
+        {/* Floating Background Particles */}
+        <div className="absolute top-10 left-10 animate-float text-4xl">🎈</div>
+        <div className="absolute top-70 right-10 animate-float text-4xl" style={{ animationDelay: '1s' }}>✨</div>
+
+        <div className="relative z-10 max-w-2xl">
+          <div className="inline-flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full mb-6 border border-secondary/20 shadow-sm">
+            <Sparkles className="w-4 h-4 text-primary animate-twinkle" />
+            <span className="text-xs font-bold uppercase tracking-widest text-muted">New: AI Wish Assistant</span>
+          </div>
+
+          <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
+            Send a <span className="font-cute text-primary">Smile</span>, <br />
+            One Wink at a Time.
+          </h1>
+
+          <p className="text-lg text-muted mb-10 font-medium max-w-md mx-auto">
+            {SUBTITLE}
+          </p>
+
+          <Link href="/create" className="primary-button max-w-xs mx-auto">
+            Create a Wish Now <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+
+        {/* Hero Visual: A "card carousel" Preview */}
+        <InfiniteCarousel />
+      </section>
+
+      {/* --- FEATURES / TIERS --- */}
+      <section className="bg-white/40 backdrop-blur-md py-20 px-6 rounded-t-[3rem]">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-center text-3xl font-black mb-12">Why Choose WishWink?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {
+              FEATURES.map((feature) => (
+                <div key={feature.title} className="p-6 text-center">
+                  <div className="icon-container">
+                    {feature.icon && <feature.icon className="w-6 h-6" />}
+                  </div>
+                  <h3 className="font-bold mb-2">{feature.title}</h3>
+                  <p className="text-sm text-muted">{feature.description}</p>
+                </div>
+              ))
+            }
           </div>
         </div>
-        <h1 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">WishWink</h1>
+      </section>
 
-        <form onSubmit={handleCreate} className="text-left space-y-5 bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">To</label>
-            <div className="relative">
-              <User className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-              <input required placeholder="Recipient Name" className="w-full pl-10 pr-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
-                value={formData.recipient_name} onChange={e => setFormData({ ...formData, recipient_name: e.target.value })} />
-            </div>
+      {/* --- PRICING SECTION --- */}
+      <section className=" py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-black mb-12">Choose Your Plan</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {PRICING_PLANS.map((plan) => (
+              <div key={plan.name} className="bg-white px-4 py-8 rounded-lg shadow-lg border border-primary flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
+                  <p className="text-2xl font-black text-primary mb-4">{plan.cost}</p>
+                  <p className="text-muted mb-4">{plan.description}</p>
+                  <ul className="text-sm text-muted mb-6 space-y-2">
+                    {plan.features.map((feature, index) => (
+                      <li key={index}>• {feature}</li>
+                    ))}
+                  </ul>
+                </div>
+                <Link href="/pricing" className="primary-button">
+                  {plan.cta}
+                </Link>
+              </div>
+            ))}
           </div>
-
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Theme</label>
-            <div className="grid grid-cols-3 gap-2">
-              {(['birthday', 'valentine', 'newyear'] as ThemeId[]).map(t => (
-                <button key={t} type="button" onClick={() => setFormData({ ...formData, theme_id: t })}
-                  className={`py-2 rounded-xl text-xs font-bold transition-all border-2 ${formData.theme_id === t ? 'border-indigo-600 bg-indigo-50 text-indigo-600' : 'border-slate-50 bg-slate-50 text-slate-400'}`}>
-                  {THEMES[t].icon}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Message</label>
-              <button type="button" onClick={handleMagicWrite} disabled={isGenerating} className="text-[10px] font-bold text-indigo-600 flex items-center gap-1 hover:opacity-70 disabled:opacity-50">
-                {isGenerating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />} Magic Write
-              </button>
-            </div>
-            <textarea required placeholder="Write a wink..." className="w-full p-4 bg-slate-50 rounded-xl focus:ring-2 focus:ring-indigo-500 h-24 resize-none outline-none"
-              value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} />
-          </div>
-
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">From</label>
-            <input required placeholder="Your Name" className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
-              value={formData.sender_name} onChange={e => setFormData({ ...formData, sender_name: e.target.value })} />
-          </div>
-
-          <button type="submit" disabled={isCreating} className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-indigo-700 active:scale-95 transition-all flex items-center justify-center gap-2">
-            {isCreating ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Send className="w-4 h-4" /> Send Wink</>}
-          </button>
-        </form>
-      </div>
-      {/* <WishAssistant context="Creating a new wish wink." /> */}
+        </div>
+      </section>
     </div>
   );
 }

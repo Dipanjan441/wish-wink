@@ -16,6 +16,11 @@ export const ROUTES = {
 
     //admin routes
     ADMIN: '/admin',
+
+    //information routes
+    TERMS: '/terms',
+    PRIVACY: '/privacy',
+    SUPPORT: '/support',
 } as const;
 
 //routes grouped by access level
