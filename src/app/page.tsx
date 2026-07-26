@@ -57,7 +57,7 @@ export default function LandingPage() {
       </section>
 
       {/* --- PRICING SECTION --- */}
-      <section className=" py-20 px-6">
+      <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-black mb-12">Choose Your Plan</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
